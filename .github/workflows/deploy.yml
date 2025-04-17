@@ -35,3 +35,5 @@ jobs:
           branch: gh-pages  # 部署到 gh-pages 分支
           folder: dist      # Vite 的默认构建输出目录是 dist 而非 build
           clean: true       # 清理旧文件
+          ssh-key: ${{ secrets.DEPLOY_KEY }}
+
