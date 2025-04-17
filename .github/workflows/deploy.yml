@@ -1,0 +1,37 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master  # 设置要监听的分支，如果你的默认分支是master，请将此处更改为master
+  
+  # 允许手动触发工作流
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'  # 使用Node.js 18版本，可以根据项目需要调整
+          
+      - name: Install dependencies
+        run: npm ci  # 使用ci而非install，确保依赖版本一致性
+      
+      - name: Build
+        run: npm run build
+        env:
+          PUBLIC_URL: /card-designer  # 如果你的仓库名是card-designer，需要设置PUBLIC_URL
+      
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages  # 部署到 gh-pages 分支
+          folder: dist      # Vite 的默认构建输出目录是 dist 而非 build
+          clean: true       # 清理旧文件
