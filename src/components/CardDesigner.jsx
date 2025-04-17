@@ -12,6 +12,8 @@ const DesignerContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  width: 100%;
+  justify-content: center;
   @media (max-width: 768px) {
     flex-direction: column;
   }
@@ -79,13 +81,7 @@ const CardType = styled.div`
   text-align: center;
 `;
 
-const CardRarity = styled.div`
-  font-size: 14px;
-  color: #7f8c8d;
-  margin-bottom: 15px;
-  text-align: center;
-  font-style: italic;
-`;
+
 
 const CardStats = styled.div`
   margin-top: auto;
@@ -163,7 +159,6 @@ const CardDesigner = () => {
     id: 21,
     name: "Axe",
     cardType: "Hero",
-    rarity: "Rare",
     color: "Red",
     attack: 7,
     health: 11
@@ -260,6 +255,27 @@ const CardDesigner = () => {
 
   return (
     <DesignerContainer>
+      <PreviewPanel>
+        <CardPreview ref={cardRef}>
+          <CardHeader color={card.color}>
+            <CardName>{card.name}</CardName>
+          </CardHeader>
+          <CardBody>
+            <CardType>{card.cardType}</CardType>
+            <CardStats>
+              <StatBox>
+                <StatValue type="attack">{card.attack}</StatValue>
+                <StatLabel>攻击</StatLabel>
+              </StatBox>
+              <StatBox>
+                <StatValue type="health">{card.health}</StatValue>
+                <StatLabel>生命</StatLabel>
+              </StatBox>
+            </CardStats>
+          </CardBody>
+        </CardPreview>
+      </PreviewPanel>
+      
       <EditorPanel>
         <h2>卡牌编辑器</h2>
         
@@ -300,20 +316,7 @@ const CardDesigner = () => {
           </Select>
         </FormGroup>
         
-        <FormGroup>
-          <Label htmlFor="rarity">稀有度</Label>
-          <Select 
-            id="rarity" 
-            name="rarity" 
-            value={card.rarity} 
-            onChange={handleChange}
-          >
-            <option value="Common">普通</option>
-            <option value="Rare">稀有</option>
-            <option value="Epic">史诗</option>
-            <option value="Legendary">传说</option>
-          </Select>
-        </FormGroup>
+
         
         <FormGroup>
           <Label htmlFor="color">颜色</Label>
@@ -360,28 +363,6 @@ const CardDesigner = () => {
           <Button onClick={resetToDefault}>重置</Button>
         </ButtonGroup>
       </EditorPanel>
-      
-      <PreviewPanel>
-        <CardPreview ref={cardRef}>
-          <CardHeader color={card.color}>
-            <CardName>{card.name}</CardName>
-          </CardHeader>
-          <CardBody>
-            <CardType>{card.cardType}</CardType>
-            <CardRarity>{card.rarity}</CardRarity>
-            <CardStats>
-              <StatBox>
-                <StatValue type="attack">{card.attack}</StatValue>
-                <StatLabel>攻击</StatLabel>
-              </StatBox>
-              <StatBox>
-                <StatValue type="health">{card.health}</StatValue>
-                <StatLabel>生命</StatLabel>
-              </StatBox>
-            </CardStats>
-          </CardBody>
-        </CardPreview>
-      </PreviewPanel>
     </DesignerContainer>
   );
 };

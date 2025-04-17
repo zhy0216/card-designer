@@ -2,7 +2,6 @@
   "id": 21,
   "name": "Axe",
   "cardType": "Hero",
-  "rarity": "Rare",
   "color": "Red",
   "attack": 7,
   "health": 11
