@@ -37,18 +37,26 @@ src/
 
 ## 功能特性
 
-- 卡片设计
-- 实时预览
+- 卡片设计（支持图片上传、裁剪、描述与属性编辑）
+- 实时预览（所见即所得，图片铺满卡面）
+- 图片裁剪（集成 react-easy-crop，上传后可直接裁剪图片）
 - 导出功能
 - 响应式布局
 
+## 技术栈与依赖
+
+- React 19
+- Vite 6
+- Emotion（CSS-in-JS）
+- FontAwesome（图标）
+- react-easy-crop（图片裁剪）
+- 其它详见 package.json
+
 ## 开发规范     
 
-- 使用 TypeScript 进行类型检查
 - 遵循 ESLint 规则
 - 使用 Prettier 进行代码格式化
 
 ## 许可证
 
 [MIT](LICENSE)
-```
