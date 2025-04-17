@@ -17,7 +17,7 @@ const HeroCardTemplate = ({ card }) => {
       </CardHeader>
       <CardBody style={{ position: 'relative', flex: 1, overflow: 'hidden' }}>
         {cropperZone}
-        <CardBottomContainer>
+        <CardBottomContainer color={card.color}>
           {card.description && (
             <DescriptionBox>
               {card.description}
@@ -26,13 +26,13 @@ const HeroCardTemplate = ({ card }) => {
           <CardStats color={card.color}>
             <StatBox>
               <StatLabel>
-                <FontAwesomeIcon icon={faFistRaised} />
+                <FontAwesomeIcon color='white' icon={faFistRaised} />
               </StatLabel>
               <StatValue type="attack">{card.attack || 0}</StatValue>
             </StatBox>
             <StatBox>
               <StatLabel>
-                <FontAwesomeIcon icon={faHeart} />
+                <FontAwesomeIcon color='white' icon={faHeart} />
               </StatLabel>
               <StatValue type="health">{card.health || 0}</StatValue>
             </StatBox>

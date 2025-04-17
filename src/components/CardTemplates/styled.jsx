@@ -13,6 +13,7 @@ export const CardPreview = styled.div`
   position: relative;
   border-radius: 30px;
   overflow: hidden;
+  border: 1px solid whitesmoke;
 `;
 
 export const CardHeader = styled.div`
@@ -43,14 +44,15 @@ export const CardBottomContainer = styled.div`
   display: flex;
   flex-direction: column;
   pointer-events: none;
-  background: rgba(255,255,255,0.55);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(10px);
+  background-color: rgba(255,255,255,0.55);
 `;
 
 export const DescriptionBox = styled.div`
   padding: 10px;
+  height: fit-content;
   font-size: 14px;
-  color: #333;
+  color: white;
   white-space: pre-line;
   border-radius: 0 0 8px 8px;
   margin-bottom: 2px;
@@ -62,6 +64,7 @@ export const CardStats = styled.div`
   justify-content: space-between;
   padding: 10px;
   border-top: 1px solid ${({ color }) => cardColors[color] || cardColors.Default};
+  background-color:${({ color }) => cardColors[color] || cardColors.Default};
 `;
 
 export const StatBox = styled.div`
@@ -77,7 +80,7 @@ export const StatValue = styled.span`
   font-weight: bold;
   font-size: 18px;
   margin-left: 2px;
-  color: ${({ type }) => (type === 'attack' ? '#e74c3c' : '#2ecc71')};
+  color: white;
 `;
 
 // 可继续在这里添加其它通用样式组件
