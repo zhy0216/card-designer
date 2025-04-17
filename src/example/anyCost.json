@@ -1,0 +1,8 @@
+{
+  "id": 11,
+  "name": "At Any Cost",
+  "cardType": "spell",
+  "color": "Blue",
+  "manaCost": 3,
+  "description": "Deal 4 damage to every unit."
+}

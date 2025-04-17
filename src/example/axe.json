@@ -1,0 +1,9 @@
+{
+  "id": 21,
+  "name": "Axe",
+  "cardType": "Hero",
+  "color": "Red",
+  "attack": 7,
+  "health": 11,
+  "description": "Axe is a powerful weapon that can be used to cut through enemies."
+}

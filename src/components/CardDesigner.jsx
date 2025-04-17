@@ -3,7 +3,12 @@ import styled from '@emotion/styled';
 import { toPng } from 'html-to-image';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFistRaised, faHeart, faBolt } from '@fortawesome/free-solid-svg-icons';
+import { BaseCardEditor, HeroCardEditor, SpellCardEditor, CreepCardEditor } from './CardEditors';
 
+
+const grey = "#7f8c8d"
 // 样式组件
 const DesignerContainer = styled.div`
   display: flex;
@@ -51,8 +56,8 @@ const CardHeader = styled.div`
       case 'Red': return '#e74c3c';
       case 'Blue': return '#3498db';
       case 'Green': return '#2ecc71';
-      case 'Yellow': return '#f1c40f';
-      case 'Purple': return '#9b59b6';
+      // case 'Yellow': return '#f1c40f';
+      // case 'Purple': return '#9b59b6';
       default: return '#95a5a6';
     }
   }};
@@ -61,40 +66,36 @@ const CardHeader = styled.div`
 `;
 
 const CardBody = styled.div`
-  padding: 15px;
+
   background-color: #fff;
-  height: calc(100% - 40px);
+  height: calc(100% - 60px);
   display: flex;
   flex-direction: column;
 `;
 
 const CardName = styled.h2`
-  margin: 0 0 10px 0;
+  margin: 0;
   font-size: 24px;
   text-align: center;
 `;
 
 const CardType = styled.div`
   font-size: 16px;
-  color: #7f8c8d;
+  color: ${grey};
   margin-bottom: 10px;
   text-align: center;
 `;
-
-
 
 const CardStats = styled.div`
   margin-top: auto;
   display: flex;
   justify-content: space-between;
   padding: 10px;
-  background-color: #f9f9f9;
   border-top: 1px solid #eee;
 `;
 
 const StatBox = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: center;
 `;
 
@@ -105,45 +106,11 @@ const StatValue = styled.div`
 `;
 
 const StatLabel = styled.div`
-  font-size: 12px;
-  color: #7f8c8d;
-`;
-
-const FormGroup = styled.div`
-  margin-bottom: 15px;
-`;
-
-const Label = styled.label`
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-`;
-
-const Input = styled.input`
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-`;
-
-const Select = styled.select`
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-`;
-
-const Button = styled.button`
-  background-color: #3498db;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-right: 10px;
-  &:hover {
-    background-color: #2980b9;
-  }
+  font-size: 14px;
+  color: ${grey};
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const ButtonGroup = styled.div`
@@ -161,7 +128,8 @@ const CardDesigner = () => {
     cardType: "Hero",
     color: "Red",
     attack: 7,
-    health: 11
+    health: 11,
+    description: "Axe is a powerful weapon that can be used to cut through enemies."
   };
 
   // 状态管理
@@ -191,7 +159,7 @@ const CardDesigner = () => {
     let processedValue = value;
     
     // 对数字类型的字段进行转换
-    if (name === 'attack' || name === 'health' || name === 'id') {
+    if (name === 'attack' || name === 'health' || name === 'id' || name === 'manaCost') {
       processedValue = parseInt(value) || 0;
     }
     
@@ -253,108 +221,73 @@ const CardDesigner = () => {
     setCard(defaultCard);
   };
 
+  // 根据卡牌类型渲染对应的编辑器组件
+  const renderCardTypeEditor = () => {
+    switch(card.cardType.toLowerCase()) {
+      case 'hero':
+        return <HeroCardEditor card={card} handleChange={handleChange} />;
+      case 'spell':
+        return <SpellCardEditor card={card} handleChange={handleChange} />;
+      case 'creep':
+        return <CreepCardEditor card={card} handleChange={handleChange} />;
+      default:
+        return null;
+    }
+  };
+
+  // 根据卡牌类型渲染预览
+  const renderCardPreview = () => {
+    // 基础卡牌预览
+    return (
+      <CardPreview ref={cardRef}>
+        <CardHeader color={card.color}>
+          {(card.cardType.toLowerCase() === 'spell' || card.cardType.toLowerCase() === 'creep') && (
+            <div style={{ position: 'absolute', top: '10px', left: '10px', backgroundColor: '#2c3e50', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ color: grey, fontWeight: 'bold' }}>{card.manaCost || 0}</div>
+            </div>
+          )}
+          <CardName>{card.name}</CardName>
+        </CardHeader>
+        <CardBody>
+          <CardType>{card.cardType}</CardType>
+          {card.description && (
+            <div style={{ padding: '10px', fontSize: '14px', flex: 1, overflow: 'auto' }}>
+              {card.description}
+            </div>
+          )}
+          {(card.cardType.toLowerCase() === 'hero' || card.cardType.toLowerCase() === 'creep') && (
+            <CardStats>
+              <StatBox>
+                <StatLabel>
+                  <FontAwesomeIcon icon={faFistRaised} />
+                </StatLabel>
+                <StatValue type="attack">{card.attack || 0}</StatValue>
+              </StatBox>
+              <StatBox>
+                <StatLabel>
+                  <FontAwesomeIcon icon={faHeart} />
+                </StatLabel>
+                <StatValue type="health">{card.health || 0}</StatValue>
+              </StatBox>
+            </CardStats>
+          )}
+        </CardBody>
+      </CardPreview>
+    );
+  };
+
   return (
     <DesignerContainer>
       <PreviewPanel>
-        <CardPreview ref={cardRef}>
-          <CardHeader color={card.color}>
-            <CardName>{card.name}</CardName>
-          </CardHeader>
-          <CardBody>
-            <CardType>{card.cardType}</CardType>
-            <CardStats>
-              <StatBox>
-                <StatValue type="attack">{card.attack}</StatValue>
-                <StatLabel>攻击</StatLabel>
-              </StatBox>
-              <StatBox>
-                <StatValue type="health">{card.health}</StatValue>
-                <StatLabel>生命</StatLabel>
-              </StatBox>
-            </CardStats>
-          </CardBody>
-        </CardPreview>
+        {renderCardPreview()}
       </PreviewPanel>
       
       <EditorPanel>
         <h2>卡牌编辑器</h2>
         
-        <FormGroup>
-          <Label htmlFor="id">ID</Label>
-          <Input 
-            type="number" 
-            id="id" 
-            name="id" 
-            value={card.id} 
-            onChange={handleChange} 
-          />
-        </FormGroup>
+        <BaseCardEditor card={card} handleChange={handleChange} />
         
-        <FormGroup>
-          <Label htmlFor="name">名称</Label>
-          <Input 
-            type="text" 
-            id="name" 
-            name="name" 
-            value={card.name} 
-            onChange={handleChange} 
-          />
-        </FormGroup>
-        
-        <FormGroup>
-          <Label htmlFor="cardType">卡牌类型</Label>
-          <Select 
-            id="cardType" 
-            name="cardType" 
-            value={card.cardType} 
-            onChange={handleChange}
-          >
-            <option value="Hero">英雄</option>
-            <option value="Spell">法术</option>
-            <option value="Minion">随从</option>
-            <option value="Weapon">武器</option>
-          </Select>
-        </FormGroup>
-        
-
-        
-        <FormGroup>
-          <Label htmlFor="color">颜色</Label>
-          <Select 
-            id="color" 
-            name="color" 
-            value={card.color} 
-            onChange={handleChange}
-          >
-            <option value="Red">红色</option>
-            <option value="Blue">蓝色</option>
-            <option value="Green">绿色</option>
-            <option value="Yellow">黄色</option>
-            <option value="Purple">紫色</option>
-          </Select>
-        </FormGroup>
-        
-        <FormGroup>
-          <Label htmlFor="attack">攻击力</Label>
-          <Input 
-            type="number" 
-            id="attack" 
-            name="attack" 
-            value={card.attack} 
-            onChange={handleChange} 
-          />
-        </FormGroup>
-        
-        <FormGroup>
-          <Label htmlFor="health">生命值</Label>
-          <Input 
-            type="number" 
-            id="health" 
-            name="health" 
-            value={card.health} 
-            onChange={handleChange} 
-          />
-        </FormGroup>
+        {renderCardTypeEditor()}
         
         <ButtonGroup>
           <Button onClick={exportAsPNG}>导出PNG</Button>

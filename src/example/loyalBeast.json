@@ -1,0 +1,10 @@
+{
+  "id": 149,
+  "name": "Loyal Beast",
+  "cardType": "Creep",
+  "color": "Red",
+  "attack": 7,
+  "health": 11,
+  "manaCost": 3,
+  "description": "Whenever a creature you control attacks, gain 1 mana."
+}
