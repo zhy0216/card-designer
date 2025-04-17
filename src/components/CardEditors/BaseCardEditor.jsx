@@ -1,8 +1,5 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import Draggable from 'react-draggable';
-import { ResizableBox } from 'react-resizable';
-import 'react-resizable/css/styles.css';
 
 // 样式组件
 const FormGroup = styled.div`
