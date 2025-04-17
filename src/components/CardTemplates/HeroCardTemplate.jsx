@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFistRaised, faHeart, faCrop } from '@fortawesome/free-solid-svg-icons';
 import useImageCropper from '../../hooks/useImageCropper.jsx';
 import { cardColors, CardPreview, CardHeader, CardBody, CardName, CardBottomContainer, DescriptionBox, CardStats, StatBox, StatLabel, StatValue } from './styled.jsx';
 
-const HeroCardTemplate = ({ card }) => {
+const HeroCardTemplate = forwardRef(({ card }, ref) => {
   const { cropperZone } = useImageCropper({
     initialImage: card.descriptionImage || '',
     onCropComplete: () => {},
   });
 
   return (
-    <CardPreview>
+    <CardPreview ref={ref}>
       <CardHeader color={card.color}>
         <CardName>{card.name}</CardName>
       </CardHeader>
@@ -41,6 +41,6 @@ const HeroCardTemplate = ({ card }) => {
       </CardBody>
     </CardPreview>
   );
-};
+});
 
 export default HeroCardTemplate;

@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFistRaised, faHeart, faCrop } from '@fortawesome/free-solid-svg-icons';
 import useImageCropper from '../../hooks/useImageCropper.jsx';
 import { cardColors, CardPreview, CardHeader, CardBody, CardName, CardBottomContainer, DescriptionBox, CardStats, StatBox, StatLabel, StatValue } from './styled.jsx';
 
-const CreepCardTemplate = ({ card }) => {
+const CreepCardTemplate = forwardRef(({ card }, ref) => {
   const { cropperZone } = useImageCropper({
     initialImage: card.descriptionImage || '',
     onCropComplete: () => {},
   });
 
   return (
-    <CardPreview>
+    <CardPreview ref={ref}>
       <CardHeader color={card.color}>
         <CardName>{card.name}</CardName>
       </CardHeader>
@@ -26,13 +26,13 @@ const CreepCardTemplate = ({ card }) => {
           <CardStats color={card.color}>
             <StatBox>
               <StatLabel>
-                <FontAwesomeIcon icon={faFistRaised} />
+                <FontAwesomeIcon color='white' icon={faFistRaised} />
               </StatLabel>
               <StatValue type="attack">{card.attack || 0}</StatValue>
             </StatBox>
             <StatBox>
               <StatLabel>
-                <FontAwesomeIcon icon={faHeart} />
+                <FontAwesomeIcon color='white' icon={faHeart} />
               </StatLabel>
               <StatValue type="health">{card.health || 0}</StatValue>
             </StatBox>
@@ -41,6 +41,6 @@ const CreepCardTemplate = ({ card }) => {
       </CardBody>
     </CardPreview>
   );
-};
+});
 
 export default CreepCardTemplate;

@@ -122,16 +122,16 @@ const DragHint = styled.div`
   pointer-events: none;
 `;
 
-const CardPreviewComponent = ({ card, ...props }) => {
+const CardPreviewComponent = ({ card, cardRef, ...props }) => {
   const type = card.cardType?.toLowerCase();
   if (type === 'hero') {
-    return <HeroCardTemplate card={card} {...props} />;
+    return <HeroCardTemplate ref={cardRef} card={card} {...props} />;
   }
   if (type === 'creep') {
-    return <CreepCardTemplate card={card} {...props} />;
+    return <CreepCardTemplate ref={cardRef} card={card} {...props} />;
   }
   if (type === 'spell') {
-    return <SpellCardTemplate card={card} {...props} />;
+    return <SpellCardTemplate ref={cardRef} card={card} {...props} />;
   }
   // fallback
   return <div>暂不支持该卡牌类型的预览</div>;

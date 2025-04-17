@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import useImageCropper from '../../hooks/useImageCropper.jsx';
 import { cardColors, CardPreview, CardHeader, CardBody, CardName, CardBottomContainer, DescriptionBox } from './styled.jsx';
 
-const SpellCardTemplate = ({ card }) => {
+const SpellCardTemplate = forwardRef(({ card }, ref) => {
   const { cropperZone } = useImageCropper({
     initialImage: card.descriptionImage || '',
     onCropComplete: () => {},
   });
 
   return (
-    <CardPreview>
+    <CardPreview ref={ref}>
       <CardHeader color={card.color}>
         <CardName>{card.name}</CardName>
       </CardHeader>
@@ -25,6 +25,6 @@ const SpellCardTemplate = ({ card }) => {
       </CardBody>
     </CardPreview>
   );
-};
+});
 
 export default SpellCardTemplate;

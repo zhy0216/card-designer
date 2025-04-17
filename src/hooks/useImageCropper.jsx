@@ -1,13 +1,12 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import Cropper from 'react-easy-crop';
 import React from 'react';
 
-// 通用图片裁剪 hook，返回 cropperZone 组件（集成拖拽与裁剪弹窗）
 export default function useImageCropper({
   initialImage = '',
-  aspect = 3/4, // 默认卡牌比例
+  aspect = 3/4,
   onCropComplete,
-  placeholder = null,
+  placeholder,
 } = {}) {
   const [image, setImage] = useState(initialImage);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -16,6 +15,15 @@ export default function useImageCropper({
   const [showCropper, setShowCropper] = useState(false);
   const [dragActive, setDragActive] = useState(false);
   const [previewUrl, setPreviewUrl] = useState(initialImage);
+
+  // 默认拖拽提示
+  const defaultPlaceholder = (
+    <div style={{
+      width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#3498db', fontWeight: 600, fontSize: 18, userSelect: 'none', pointerEvents: 'none'
+    }}>
+      拖拽图片到这里更换插图
+    </div>
+  );
 
   // 裁剪完成后，返回裁剪区域像素
   const handleCropComplete = useCallback((_, croppedAreaPixels) => {
@@ -113,6 +121,11 @@ export default function useImageCropper({
     startCrop(url);
   };
 
+  // 修复：初始图片变化时，同步预览层（解决切换类型图片消失问题）
+  useEffect(() => {
+    setPreviewUrl(initialImage || '');
+  }, [initialImage]);
+
   // 集成拖拽和裁剪弹窗的区域
   const cropperZone = useMemo(() => (
     <div
@@ -195,8 +208,8 @@ export default function useImageCropper({
           </div>
         </div>
       )}
-      {/* 可选：自定义占位符 */}
-      {!previewUrl && !dragActive && placeholder}
+      {/* 可选：自定义占位符（否则用默认） */}
+      {!previewUrl && !dragActive && (placeholder || defaultPlaceholder)}
     </div>
   ), [previewUrl, dragActive, showCropper, image, crop, zoom, aspect, setCrop, setZoom, handleCropComplete, confirmCrop, cancelCrop, placeholder]);
 
