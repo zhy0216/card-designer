@@ -3,8 +3,6 @@ import styled from '@emotion/styled';
 import { toPng } from 'html-to-image';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFistRaised, faHeart, faBolt } from '@fortawesome/free-solid-svg-icons';
 import { BaseCardEditor, HeroCardEditor, SpellCardEditor, CreepCardEditor } from './CardEditors';
 import CardPreviewComponent from './CardPreviewComponent';
 
