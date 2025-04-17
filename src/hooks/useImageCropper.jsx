@@ -6,6 +6,7 @@ export default function useImageCropper({
   initialImage = '',
   aspect = 3/4,
   onCropComplete,
+  onCropConfirm, // 新增：裁剪确认回调
   placeholder,
 } = {}) {
   const [image, setImage] = useState(initialImage);
@@ -40,31 +41,34 @@ export default function useImageCropper({
       img.onerror = reject;
       img.src = url;
     });
-    const getCroppedImg = async (imageSrc, pixelCrop) => {
-      const image = await createImage(imageSrc);
-      const canvas = document.createElement('canvas');
-      canvas.width = pixelCrop.width;
-      canvas.height = pixelCrop.height;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(
-        image,
-        pixelCrop.x,
-        pixelCrop.y,
-        pixelCrop.width,
-        pixelCrop.height,
-        0,
-        0,
-        pixelCrop.width,
-        pixelCrop.height
-      );
-      return new Promise((resolve) => {
-        canvas.toBlob((blob) => {
-          resolve(blob);
-        }, 'image/png');
-      });
-    };
-    return await getCroppedImg(image, croppedAreaPixels);
+    const img = await createImage(image);
+    const canvas = document.createElement('canvas');
+    canvas.width = croppedAreaPixels.width;
+    canvas.height = croppedAreaPixels.height;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(
+      img,
+      croppedAreaPixels.x,
+      croppedAreaPixels.y,
+      croppedAreaPixels.width,
+      croppedAreaPixels.height,
+      0,
+      0,
+      croppedAreaPixels.width,
+      croppedAreaPixels.height
+    );
+    return canvas.toDataURL('image/png');
   }, [image, croppedAreaPixels]);
+
+  // 新增：确认裁剪并回调
+  const handleCropConfirm = useCallback(async () => {
+    const croppedImage = await getCroppedImage();
+    if (onCropConfirm && croppedImage) {
+      onCropConfirm(croppedImage);
+    }
+    setShowCropper(false);
+    setPreviewUrl(croppedImage || image);
+  }, [getCroppedImage, onCropConfirm, image]);
 
   // 用户确认裁剪
   const confirmCrop = useCallback(async () => {
@@ -201,6 +205,13 @@ export default function useImageCropper({
               onZoomChange={setZoom}
               onCropComplete={handleCropComplete}
             />
+            {/* 新增：确认裁剪按钮 */}
+            <button
+              style={{ position: 'absolute', right: 10, bottom: 10, zIndex: 10, background: '#3498db', color: '#fff', border: 'none', borderRadius: 4, padding: '6px 16px', cursor: 'pointer', fontWeight: 600 }}
+              onClick={handleCropConfirm}
+            >
+              确认裁剪
+            </button>
           </div>
           <div style={{ marginTop: 16 }}>
             <button onClick={confirmCrop} style={{ marginRight: 8 }}>确认裁剪</button>
@@ -217,5 +228,6 @@ export default function useImageCropper({
     cropperZone, // 直接渲染这个区域即可，内含拖拽、上传、裁剪
     setPreviewUrl, // 可用于外部设置图片（如重置）
     previewUrl,    // 当前预览图片 url
+    handleCropConfirm // 导出方法
   };
 }

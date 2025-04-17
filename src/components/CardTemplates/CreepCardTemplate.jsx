@@ -4,10 +4,13 @@ import { faFistRaised, faHeart, faCrop } from '@fortawesome/free-solid-svg-icons
 import useImageCropper from '../../hooks/useImageCropper.jsx';
 import { cardColors, CardPreview, CardHeader, CardBody, CardName, CardBottomContainer, DescriptionBox, CardStats, StatBox, StatLabel, StatValue } from './styled.jsx';
 
-const CreepCardTemplate = forwardRef(({ card }, ref) => {
+const CreepCardTemplate = forwardRef(({ card, onImageChange }, ref) => {
   const { cropperZone } = useImageCropper({
     initialImage: card.descriptionImage || '',
     onCropComplete: () => {},
+    onCropConfirm: (croppedImg) => {
+      if (onImageChange) onImageChange(croppedImg);
+    },
   });
 
   return (

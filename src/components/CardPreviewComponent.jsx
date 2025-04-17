@@ -122,16 +122,22 @@ const DragHint = styled.div`
   pointer-events: none;
 `;
 
-const CardPreviewComponent = ({ card, cardRef, ...props }) => {
+const CardPreviewComponent = ({ card, cardRef, handleImageChange, handleChange, ...props }) => {
   const type = card.cardType?.toLowerCase();
+  const handleImgChange = (img) => {
+    if (handleChange) {
+      handleChange({ target: { name: 'descriptionImage', value: img } });
+    }
+    if (handleImageChange) handleImageChange(img);
+  };
   if (type === 'hero') {
-    return <HeroCardTemplate ref={cardRef} card={card} {...props} />;
+    return <HeroCardTemplate ref={cardRef} card={card} onImageChange={handleImgChange} {...props} />;
   }
   if (type === 'creep') {
-    return <CreepCardTemplate ref={cardRef} card={card} {...props} />;
+    return <CreepCardTemplate ref={cardRef} card={card} onImageChange={handleImgChange} {...props} />;
   }
   if (type === 'spell') {
-    return <SpellCardTemplate ref={cardRef} card={card} {...props} />;
+    return <SpellCardTemplate ref={cardRef} card={card} onImageChange={handleImgChange} {...props} />;
   }
   // fallback
   return <div>暂不支持该卡牌类型的预览</div>;

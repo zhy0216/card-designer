@@ -2,10 +2,13 @@ import React, { forwardRef } from 'react';
 import useImageCropper from '../../hooks/useImageCropper.jsx';
 import { cardColors, CardPreview, CardHeader, CardBody, CardName, CardBottomContainer, DescriptionBox } from './styled.jsx';
 
-const SpellCardTemplate = forwardRef(({ card }, ref) => {
+const SpellCardTemplate = forwardRef(({ card, onImageChange }, ref) => {
   const { cropperZone } = useImageCropper({
     initialImage: card.descriptionImage || '',
     onCropComplete: () => {},
+    onCropConfirm: (croppedImg) => {
+      if (onImageChange) onImageChange(croppedImg);
+    },
   });
 
   return (
