@@ -4,7 +4,7 @@ import { toPng } from 'html-to-image';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
 import { BaseCardEditor, HeroCardEditor, SpellCardEditor, CreepCardEditor } from './CardEditors';
-import CardPreviewComponent from './CardPreviewComponent';
+import CardPreview from './CardPreview';
 
 const grey = "#7f8c8d"
 // 样式组件
@@ -38,78 +38,6 @@ const PreviewPanel = styled.div`
   padding: 20px;
 `;
 
-const CardPreview = styled.div`
-  width: 300px;
-  height: 420px;
-  position: relative;
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-`;
-
-const CardHeader = styled.div`
-  padding: 10px;
-  background-color: ${props => {
-    switch(props.color) {
-      case 'Red': return '#e74c3c';
-      case 'Blue': return '#3498db';
-      case 'Green': return '#2ecc71';
-      // case 'Yellow': return '#f1c40f';
-      // case 'Purple': return '#9b59b6';
-      default: return '#95a5a6';
-    }
-  }};
-  color: white;
-  text-align: center;
-`;
-
-const CardBody = styled.div`
-
-  background-color: #fff;
-  height: calc(100% - 60px);
-  display: flex;
-  flex-direction: column;
-`;
-
-const CardName = styled.h2`
-  margin: 0;
-  font-size: 24px;
-  text-align: center;
-`;
-
-const CardType = styled.div`
-  font-size: 16px;
-  color: ${grey};
-  margin-bottom: 10px;
-  text-align: center;
-`;
-
-const CardStats = styled.div`
-  margin-top: auto;
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  border-top: 1px solid #eee;
-`;
-
-const StatBox = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const StatValue = styled.div`
-  font-size: 24px;
-  font-weight: bold;
-  color: ${props => props.type === 'attack' ? '#e74c3c' : '#3498db'};
-`;
-
-const StatLabel = styled.div`
-  font-size: 14px;
-  color: ${grey};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 
 const ButtonGroup = styled.div`
   margin-top: 20px;
@@ -271,7 +199,7 @@ const CardDesigner = () => {
   return (
     <DesignerContainer>
       <PreviewPanel>
-        <CardPreviewComponent card={card} cardRef={cardRef} handleChange={handleChange} />
+        <CardPreview card={card} cardRef={cardRef} handleChange={handleChange} />
       </PreviewPanel>
       <EditorPanel>
         <h2>卡牌编辑器</h2>

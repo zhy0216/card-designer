@@ -45,7 +45,7 @@ export const CardBottomContainer = styled.div`
   flex-direction: column;
   pointer-events: none;
   backdrop-filter: blur(10px);
-  background-color: rgba(255,255,255,0.55);
+  background-color: rgba(0,0,0,0.55);
 `;
 
 export const DescriptionBox = styled.div`
@@ -81,6 +81,22 @@ export const StatValue = styled.span`
   font-size: 18px;
   margin-left: 2px;
   color: white;
+`;
+
+export const ManaCostCircle = styled.div`
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid white;
+  margin-right: 10px;
+  margin-left: 2px;
+  user-select: none;
 `;
 
 // 可继续在这里添加其它通用样式组件

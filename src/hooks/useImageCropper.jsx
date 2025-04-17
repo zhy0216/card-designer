@@ -205,16 +205,9 @@ export default function useImageCropper({
               onZoomChange={setZoom}
               onCropComplete={handleCropComplete}
             />
-            {/* 新增：确认裁剪按钮 */}
-            <button
-              style={{ position: 'absolute', right: 10, bottom: 10, zIndex: 10, background: '#3498db', color: '#fff', border: 'none', borderRadius: 4, padding: '6px 16px', cursor: 'pointer', fontWeight: 600 }}
-              onClick={handleCropConfirm}
-            >
-              确认裁剪
-            </button>
           </div>
           <div style={{ marginTop: 16 }}>
-            <button onClick={confirmCrop} style={{ marginRight: 8 }}>确认裁剪</button>
+            <button onClick={handleCropConfirm} style={{ marginRight: 8 }}>确认裁剪</button>
             <button onClick={cancelCrop}>取消</button>
           </div>
         </div>

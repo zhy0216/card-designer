@@ -16,7 +16,9 @@ const HeroCardTemplate = forwardRef(({ card, onImageChange }, ref) => {
   return (
     <CardPreview ref={ref}>
       <CardHeader color={card.color}>
-        <CardName>{card.name}</CardName>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <CardName>{card.name}</CardName>
+        </div>
       </CardHeader>
       <CardBody style={{ position: 'relative', flex: 1, overflow: 'hidden' }}>
         {cropperZone}
