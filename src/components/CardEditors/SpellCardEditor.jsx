@@ -21,11 +21,6 @@ const Input = styled.input`
   border-radius: 4px;
 `;
 
-const IconWrapper = styled.span`
-  margin-right: 5px;
-  display: inline-flex;
-  align-items: center;
-`;
 
 // 法术卡牌编辑器组件
 const SpellCardEditor = ({ card, handleChange }) => {

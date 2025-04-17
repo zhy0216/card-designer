@@ -6,7 +6,7 @@ import JSZip from 'jszip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFistRaised, faHeart, faBolt } from '@fortawesome/free-solid-svg-icons';
 import { BaseCardEditor, HeroCardEditor, SpellCardEditor, CreepCardEditor } from './CardEditors';
-
+import CardPreviewComponent from './CardPreviewComponent';
 
 const grey = "#7f8c8d"
 // 样式组件
@@ -117,6 +117,21 @@ const ButtonGroup = styled.div`
   margin-top: 20px;
   display: flex;
   justify-content: flex-start;
+`;
+
+const Button = styled.button`
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 18px;
+  margin-right: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+  &:hover {
+    background-color: #217dbb;
+  }
 `;
 
 // 卡牌设计器组件
@@ -235,51 +250,10 @@ const CardDesigner = () => {
     }
   };
 
-  // 根据卡牌类型渲染预览
-  const renderCardPreview = () => {
-    // 基础卡牌预览
-    return (
-      <CardPreview ref={cardRef}>
-        <CardHeader color={card.color}>
-          {(card.cardType.toLowerCase() === 'spell' || card.cardType.toLowerCase() === 'creep') && (
-            <div style={{ position: 'absolute', top: '10px', left: '10px', backgroundColor: '#2c3e50', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <div style={{ color: grey, fontWeight: 'bold' }}>{card.manaCost || 0}</div>
-            </div>
-          )}
-          <CardName>{card.name}</CardName>
-        </CardHeader>
-        <CardBody>
-          <CardType>{card.cardType}</CardType>
-          {card.description && (
-            <div style={{ padding: '10px', fontSize: '14px', flex: 1, overflow: 'auto' }}>
-              {card.description}
-            </div>
-          )}
-          {(card.cardType.toLowerCase() === 'hero' || card.cardType.toLowerCase() === 'creep') && (
-            <CardStats>
-              <StatBox>
-                <StatLabel>
-                  <FontAwesomeIcon icon={faFistRaised} />
-                </StatLabel>
-                <StatValue type="attack">{card.attack || 0}</StatValue>
-              </StatBox>
-              <StatBox>
-                <StatLabel>
-                  <FontAwesomeIcon icon={faHeart} />
-                </StatLabel>
-                <StatValue type="health">{card.health || 0}</StatValue>
-              </StatBox>
-            </CardStats>
-          )}
-        </CardBody>
-      </CardPreview>
-    );
-  };
-
   return (
     <DesignerContainer>
       <PreviewPanel>
-        {renderCardPreview()}
+        <CardPreviewComponent card={card} cardRef={cardRef} />
       </PreviewPanel>
       
       <EditorPanel>
