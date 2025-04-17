@@ -116,7 +116,7 @@ const StatLabel = styled.div`
 const ButtonGroup = styled.div`
   margin-top: 20px;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
 `;
 
 const Button = styled.button`
@@ -253,7 +253,7 @@ const CardDesigner = () => {
   return (
     <DesignerContainer>
       <PreviewPanel>
-        <CardPreviewComponent card={card} cardRef={cardRef} />
+        <CardPreviewComponent card={card} cardRef={cardRef} handleChange={handleChange} />
       </PreviewPanel>
       
       <EditorPanel>
@@ -267,7 +267,6 @@ const CardDesigner = () => {
           <Button onClick={exportAsPNG}>导出PNG</Button>
           <Button onClick={exportAsJSON}>导出JSON</Button>
           <Button onClick={exportAsZIP}>导出ZIP</Button>
-          <Button onClick={resetToDefault}>重置</Button>
         </ButtonGroup>
       </EditorPanel>
     </DesignerContainer>

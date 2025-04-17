@@ -6,12 +6,17 @@ import { faFistRaised, faHeart, faBolt } from '@fortawesome/free-solid-svg-icons
 // 样式组件
 const FormGroup = styled.div`
   margin-bottom: 15px;
+  display: flex;
+  align-items: center;
 `;
 
 const Label = styled.label`
-  display: block;
-  margin-bottom: 5px;
+  display: inline-block;
+  min-width: 70px;
+  margin-bottom: 0;
+  margin-right: 10px;
   font-weight: bold;
+  text-align: right;
 `;
 
 const Input = styled.input`
@@ -19,6 +24,7 @@ const Input = styled.input`
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
+  flex: 1;
 `;
 
 const IconWrapper = styled.span`
